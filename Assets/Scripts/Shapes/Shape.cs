@@ -1,28 +1,88 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Shape : MonoBehaviour
+
+public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBeginDragHandler,IDragHandler,IEndDragHandler,IPointerDownHandler
 {
     public GameObject squareShapeImage;
-    //[HideInInspector]
+    public Vector3 shapeSelectedScale;
+    public Vector2 offSet = new Vector2(0f, 700f);
+    
+    [HideInInspector]
+    
     public ShapeData CurrentShapeData;
 
     private List<GameObject> CurrentShape = new List<GameObject>();
-
-
+    private Vector3 shapeStartScale;
+    private RectTransform _transform;
+    private bool _shapeDraggable = true;
+    private GameObject _canvas;
+    private Vector3 _startPosition;
+    private bool shapeActive = true;
+    public void Awake()
+    {
+        shapeStartScale= this.GetComponent<RectTransform>().localScale;
+        _transform = this.GetComponent<RectTransform>();
+        _canvas = GameObject.Find("Menu Screen");
+        _shapeDraggable = true;
+        _startPosition = _transform.localPosition;
+        shapeActive = true;
+    }
 
     void Start()
     {
+        // RequestNewShape(CurrentShapeData);
+    }
 
-        RequestNewShape(CurrentShapeData);
+    public bool IsonStartPositon()
+    {
+        return _transform.localPosition == _startPosition;
+    }
 
+    public bool IsAnyOffShapeSquareActive()
+    {
+        foreach (var square in CurrentShape)
+        {
+            if (square.gameObject.activeSelf)
+            {
+                return true;
+            }
+        }
 
+        return false;
+    }
 
+    public void DeActivateShape()
+    {
+        if (shapeActive)
+        {
+            foreach (var square in CurrentShape)
+            {
+                square?.GetComponent<ShapeSquare>().DeActivateShape();
+            }
+        }
 
+        shapeActive = false;
+    }
+
+    public void ActivateShape()
+    {
+        if (!shapeActive)
+        {
+            foreach (var square in CurrentShape)
+            {
+                square?.GetComponent<ShapeSquare>().ActivateShape();
+            }
+        }
+
+        shapeActive = true;
     }
     public void RequestNewShape(ShapeData shapeData)
     {
+        _transform.localPosition = _startPosition;
         CreateShape(shapeData);
     }
 
@@ -198,5 +258,49 @@ public class Shape : MonoBehaviour
             }
         }
         return number;
+    }
+
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        
+    }
+    
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        
+    }
+    
+    public  void OnBeginDrag(PointerEventData eventData)
+    {
+        
+        this.GetComponent<RectTransform>().localScale = shapeSelectedScale;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        _transform.anchorMin = new Vector2(0, 0);
+        _transform.anchorMax = new Vector2(0, 0);
+        _transform.pivot = new Vector2(0, 0);
+
+        Vector2 pos;
+       // RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvas.transform as RectTransform, eventData.position,
+           // Camera.main, out pos);
+           Vector3 _pos= Camera.main.ScreenToWorldPoint(Input.mousePosition);
+           _pos.z = 0f;
+           gameObject.transform.position = _pos;
+
+           //_transform.localPosition = pos + offSet;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        this.GetComponent<RectTransform>().localScale = shapeStartScale;
+        TheGameEvents.CheckIfShapeCanBePlaced();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        
     }
 }

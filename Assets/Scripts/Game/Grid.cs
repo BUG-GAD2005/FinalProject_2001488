@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Grid : MonoBehaviour
 {
+    public ShapeStorage shapeStorage;
     public int colums = 0;
     public int rows = 0;
     public float _squaresGap = 0.1f;
@@ -15,13 +18,22 @@ public class Grid : MonoBehaviour
 
     private Vector2 _offset = new Vector2(0.0f, 0.0f);
     private List<GameObject> gridSquares = new List<GameObject>();
-
+    
     void Start()
     {
         CreateGrid();
     }
 
-    
+    public void OnEnable()
+    {
+        TheGameEvents.CheckIfShapeCanBePlaced += CheckIfShapeCanBePlaced;
+    }
+
+    public void OnDisable()
+    {
+        TheGameEvents.CheckIfShapeCanBePlaced -= CheckIfShapeCanBePlaced;
+    }
+
     private void CreateGrid()
     {
         SpawnGridSquares();
@@ -93,5 +105,20 @@ public class Grid : MonoBehaviour
             collumn_number++;
         }
 
+    }
+
+
+    private void CheckIfShapeCanBePlaced()
+    {
+        foreach (var square in gridSquares)
+        {
+            var gridSquare = square.GetComponent<GridSquare>();
+
+            if (gridSquare.CanBePlaced()==true)
+            {
+                gridSquare.ActiavateSquare();
+            }
+        }
+        shapeStorage.GetCurrentSelectedShape().DeActivateShape();
     }
 }
