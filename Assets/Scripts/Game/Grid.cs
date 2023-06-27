@@ -27,6 +27,7 @@ public class Grid : MonoBehaviour
     public void OnEnable()
     {
         TheGameEvents.CheckIfShapeCanBePlaced += CheckIfShapeCanBePlaced;
+
     }
 
     public void OnDisable()
@@ -49,6 +50,7 @@ public class Grid : MonoBehaviour
             for(var column=0; column<colums; ++column)
             {
                 gridSquares.Add(Instantiate(gridSquare) as GameObject);
+                gridSquares[gridSquares.Count - 1].GetComponent<GridSquare>().SqaureIndex = square_index;
                 gridSquares[gridSquares.Count - 1].transform.SetParent(this.transform);
                 gridSquares[gridSquares.Count - 1].transform.localScale = new Vector3(squareScale, squareScale, squareScale);
                 gridSquares[gridSquares.Count - 1].GetComponent<GridSquare>().SetImage(square_index % 2 == 0);
@@ -110,15 +112,62 @@ public class Grid : MonoBehaviour
 
     private void CheckIfShapeCanBePlaced()
     {
+        var squareIndexes = new List<int>();
         foreach (var square in gridSquares)
         {
             var gridSquare = square.GetComponent<GridSquare>();
 
-            if (gridSquare.CanBePlaced()==true)
+            if (gridSquare.Selected && !gridSquare.SquareOccupied )
             {
+                squareIndexes.Add(gridSquare.SqaureIndex);
+                gridSquare.Selected = false;
                 gridSquare.ActiavateSquare();
+
             }
         }
-        shapeStorage.GetCurrentSelectedShape().DeActivateShape();
-    }
+        
+        var currentSelectedShape = shapeStorage.GetCurrentSelectedShape();
+        
+        //if (currentSelectedShape = null) return;
+
+        if (currentSelectedShape.TotalSquareNumber == squareIndexes.Count)
+        {
+            foreach (var squareIndex in squareIndexes)
+            {
+                gridSquares[squareIndex].GetComponent<GridSquare>().PlaceShapeOnBoard();   
+            }
+
+
+            var shapeLeft = 6;
+
+            foreach (var shape in shapeStorage.shapeList)
+            {
+                if (shape.IsonStartPositon() && shape.IsAnyOffShapeSquareActive())
+                {
+                    shapeLeft--;
+                    
+                }
+            }
+            
+
+            if (shapeLeft != 6)
+            {
+                TheGameEvents.RequestNewShapes();
+                shapeLeft = 0;
+                //GameObject.FindGameObjectWithTag("Buildings").SetActive(false);
+            }
+            else
+            {
+                TheGameEvents.SetShapeInActive();
+            }
+        }
+        else
+        {
+            TheGameEvents.MoveShapeToStartPosition();
+            
+
+
+        }
+    }   
+    
 }

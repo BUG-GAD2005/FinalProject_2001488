@@ -14,7 +14,7 @@ public class ShapeData : ScriptableObject
         private int _size = 0;
 
 
-        public Row() { }
+        public Row() {}
         public Row(int size)
         {
 

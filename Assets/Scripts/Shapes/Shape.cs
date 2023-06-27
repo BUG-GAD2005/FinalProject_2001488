@@ -14,6 +14,7 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
     [HideInInspector]
     
     public ShapeData CurrentShapeData;
+    public int TotalSquareNumber { get; set; }
 
     private List<GameObject> CurrentShape = new List<GameObject>();
     private Vector3 shapeStartScale;
@@ -22,6 +23,7 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
     private GameObject _canvas;
     private Vector3 _startPosition;
     private bool shapeActive = true;
+    
     public void Awake()
     {
         shapeStartScale= this.GetComponent<RectTransform>().localScale;
@@ -36,6 +38,19 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
     {
         // RequestNewShape(CurrentShapeData);
     }
+
+    private void OnEnable()
+    {
+        TheGameEvents.MoveShapeToStartPosition += MoveShapeToStartPositon;
+        TheGameEvents.SetShapeInActive += SetShapeInActive;
+    }
+
+    private void OnDisable()
+    {
+        TheGameEvents.MoveShapeToStartPosition -= MoveShapeToStartPositon;
+        TheGameEvents.SetShapeInActive -= SetShapeInActive;
+    }
+
 
     public bool IsonStartPositon()
     {
@@ -68,6 +83,19 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
         shapeActive = false;
     }
 
+   
+    private void SetShapeInActive()
+    {
+        if(IsonStartPositon() == false&& IsAnyOffShapeSquareActive())
+        {
+            foreach (var square in CurrentShape)
+            {
+                square.gameObject.SetActive(false);
+                Debug.Log("DSKFJAS");
+                
+            }
+        }
+    }
     public void ActivateShape()
     {
         if (!shapeActive)
@@ -80,7 +108,7 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
 
         shapeActive = true;
     }
-    public void RequestNewShape(ShapeData shapeData)
+    public void RequestNewShape(ShapeData shapeData, GameObject parentObj)
     {
         _transform.localPosition = _startPosition;
         CreateShape(shapeData);
@@ -90,11 +118,11 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
     {
         CurrentShapeData = shapeData;
 
-        var totalSquareNumber = GetNumberOfSqaures(shapeData);
+        TotalSquareNumber = GetNumberOfSqaures(shapeData);
 
-        while (CurrentShape.Count <= totalSquareNumber)
+        while (CurrentShape.Count <= TotalSquareNumber)
         {
-            CurrentShape.Add(Instantiate(squareShapeImage, transform)as GameObject);
+            CurrentShape.Add(Instantiate(squareShapeImage, transform) as GameObject);
         }
 
         foreach(var square in CurrentShape)
@@ -302,5 +330,10 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
     public void OnPointerDown(PointerEventData eventData)
     {
         
+    }
+
+    private void MoveShapeToStartPositon()
+    {
+        _transform.transform.localPosition = _startPosition;
     }
 }

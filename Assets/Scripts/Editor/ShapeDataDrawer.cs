@@ -10,7 +10,7 @@ using UnityEditor;
 public class ShapeDataDrawer : Editor
 {
     private ShapeData ShapeDataInstance => target as ShapeData;
-
+    
     public override void OnInspectorGUI()
     {
         serializedObject.Update();

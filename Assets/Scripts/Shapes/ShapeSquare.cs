@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ShapeSquare : MonoBehaviour
 {
     public Image occupiedImage;
+    
 
 
     private void Start()
@@ -24,5 +25,19 @@ public class ShapeSquare : MonoBehaviour
     {
         gameObject.GetComponent<BoxCollider2D>().enabled = true;
         gameObject.SetActive(true);
+    }
+
+
+    public void SetOccupied()
+    {
+        occupiedImage.gameObject.SetActive(true);
+       
+        
+
+    }
+
+    public void UnSetOccupied()
+    {
+        occupiedImage.gameObject.SetActive(false);
     }
 }
