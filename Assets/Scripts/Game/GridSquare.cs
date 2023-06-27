@@ -47,6 +47,7 @@ public class GridSquare : MonoBehaviour
         SquareOccupied = true;
         
         
+        
 
 
     }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class BuildingCalculations : MonoBehaviour
 {
+    
     [Header("Pawn")]
     public int pawnSquareCount;
     public int pawnCoinReduction;
@@ -76,13 +78,14 @@ public class BuildingCalculations : MonoBehaviour
 
     private void FixedUpdate()
     {
-       Debug.Log(carCount);
+       
         if (activeGrid <= GridSquare.activeGrid)
         {
             BuildingsCounts();
 
             GridSquare.activeGrid = activeGrid;
         }
+        Debug.Log(trainCount);
 
         currentCoin = GameManager.CoinCount;
         currentGem = GameManager.buildingsGemProgresValue;
@@ -95,7 +98,7 @@ public class BuildingCalculations : MonoBehaviour
         TrainBuildAndProgress(trainCoinGain, trainGemGain);
     }
 
-    public void BuildingsCounts()
+    public  void BuildingsCounts()
     {
         if (GridSquare.activeGrid - activeGrid == carSquareCount)
         {
@@ -106,7 +109,7 @@ public class BuildingCalculations : MonoBehaviour
         {
             GameManager.BuildingPrice(houseCoinReduction, houseGemReduction);
             houseCount++;
-            Debug.Log(GameManager.CoinCount);
+           
         }
         else if (GridSquare.activeGrid - activeGrid == pawnSquareCount)
         {
@@ -141,8 +144,7 @@ public class BuildingCalculations : MonoBehaviour
                 GameManager.BuildingProgressMoney(coin * PawnCount, gem * PawnCount);
                 pawnTimer = 0;
 
-                currentCoin += (coin * PawnCount);
-                currentGem += (gem * PawnCount);
+                
             }
         }
     }
@@ -157,8 +159,7 @@ public class BuildingCalculations : MonoBehaviour
                 GameManager.BuildingProgressMoney(coin * houseCount, gem * houseCount);
                 houseTimer = 0;
 
-                currentCoin += (coin * PawnCount);
-                currentGem += (gem * PawnCount);
+                
             }
         }
     }
@@ -173,8 +174,7 @@ public class BuildingCalculations : MonoBehaviour
                 GameManager.BuildingProgressMoney(coin * castleCount, gem * castleCount);
                 castleTimer = 0;
 
-                currentCoin += (coin * PawnCount);
-                currentGem += (gem * PawnCount);
+             
             }
         }
     }
@@ -189,8 +189,7 @@ public class BuildingCalculations : MonoBehaviour
                 GameManager.BuildingProgressMoney(coin * carCount, gem * carCount);
                 carTimer = 0;
 
-                currentCoin += (coin * PawnCount);
-                currentGem += (gem * PawnCount);
+                
             }
         }
     }
@@ -205,8 +204,7 @@ public class BuildingCalculations : MonoBehaviour
                 GameManager.BuildingProgressMoney(coin * shipCount, gem * shipCount);
                 shipTimer = 0;
 
-                currentCoin += (coin * PawnCount);
-                currentGem += (gem * PawnCount);
+                
             }
         }
     }
@@ -221,8 +219,7 @@ public class BuildingCalculations : MonoBehaviour
                 GameManager.BuildingProgressMoney(coin * trainCount, gem * trainCount);
                 trainTimer = 0;
 
-                currentCoin += (coin * PawnCount);
-                currentGem += (gem * PawnCount);
+                
             }
         }
     }

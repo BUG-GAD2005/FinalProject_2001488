@@ -287,7 +287,7 @@ MonoBehaviour:
   normalImage: {fileID: 8689818873848986748}
   normalImages:
   - {fileID: 21300000, guid: 886eaf4abbd6a2b41a53d4990aa34961, type: 3}
-  - {fileID: 21300000, guid: 886eaf4abbd6a2b41a53d4990aa34961, type: 3}
+  - {fileID: 21300000, guid: 2240ca17d12eb8c4b94ef72ad40b2a8c, type: 3}
 --- !u!61 &7250920485098903968
 BoxCollider2D:
   m_ObjectHideFlags: 0

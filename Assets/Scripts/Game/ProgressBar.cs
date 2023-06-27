@@ -35,6 +35,7 @@ public class ProgressBar : MonoBehaviour
         CastleProgressBarUpdate();
         CarProgressBarUpdate();
         ShipProgressBarUpdate();
+        TrainProgressBarUpdate();
     }
 
     public void PawnProgressBarUpdate()

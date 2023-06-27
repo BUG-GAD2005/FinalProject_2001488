@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class GameManager : MonoBehaviour
     public int buildingsCoinPrice;
     public int buildingsGemPrice;
     public static bool enoughMoney;
+    public float GemTimer=0;
+    public float CoinTimer=0;
 
     public static int CoinCount { get; set; }
     public static int GemCount { get; set; }
@@ -22,8 +26,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
-        GemCount = 5;
-        CoinCount = 20;
+        CoinCount = PlayerPrefs.GetInt("CointCount", CoinCount);
+        
+        GemCount = PlayerPrefs.GetInt("GemCount",GemCount);
+        
         
        
     }
@@ -31,6 +37,24 @@ public class GameManager : MonoBehaviour
     {
         CoinText.text = "  " + CoinCount;
         GemText.text = "  " + GemCount;
+        PlayerPrefs.SetInt("CointCount", CoinCount);
+        PlayerPrefs.SetInt("GemCount",GemCount);
+
+        GemTimer+=Time.deltaTime;
+        CoinTimer+=Time.deltaTime;
+
+        if(GemTimer>=40 )
+        {
+            GemCount++;
+            GemTimer=0;
+        }
+
+        if(CoinTimer>=15)
+        {
+            CoinCount++;
+            CoinTimer=0;
+            
+        }
         
     }
 
@@ -52,8 +76,8 @@ public class GameManager : MonoBehaviour
             enoughMoney = false;
         }
 
-        Debug.Log(CoinCount);
-        Debug.Log(enoughMoney);
+        //Debug.Log(CoinCount);
+        //Debug.Log(enoughMoney);
     }
 
     public static void BuildingProgressMoney(int coin, int gem)
@@ -65,11 +89,11 @@ public class GameManager : MonoBehaviour
 
     public void CheckCoinandGem()
     {
-        if (CoinCount > PlayerPrefs.GetInt("CointCount", 10)&& GemCount>PlayerPrefs.GetInt("GemCount",2))
-        {
-            PlayerPrefs.SetInt("CointCount", CoinCount);
+        
+        
+            
             UpdateCoinandGem();
-        }
+        
     }
     public void UpdateCoinandGem()
     {
@@ -81,6 +105,22 @@ public class GameManager : MonoBehaviour
             CoinText.text = $"CoinText: { CoinCount}"; 
             GemText.text = $"CoinText: { GemCount}"; 
         }
+
+    }
+
+
+
+    public void RestartLevel()
+    {
+       SceneManager.LoadScene("SampleScene");
+       CoinCount=0;
+       GemCount=0;
+       BuildingCalculations.PawnCount=0;
+       BuildingCalculations.carCount=0;
+       BuildingCalculations.houseCount=0;
+       BuildingCalculations.castleCount=0;
+       BuildingCalculations.shipCount=0;
+       BuildingCalculations.trainCount=0;
 
     }
 }

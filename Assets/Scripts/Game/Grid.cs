@@ -121,7 +121,7 @@ public class Grid : MonoBehaviour
             {
                 squareIndexes.Add(gridSquare.SqaureIndex);
                 gridSquare.Selected = false;
-                gridSquare.ActiavateSquare();
+                //gridSquare.ActiavateSquare();
 
             }
         }

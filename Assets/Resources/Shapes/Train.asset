@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Train
   m_EditorClassIdentifier: 
   columns: 3
-  rows: 2
+  rows: 3
   board:
+  - column: 000001
   - column: 010101
-  - column: 010100
+  - column: 010101
