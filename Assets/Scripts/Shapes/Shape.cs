@@ -303,6 +303,7 @@ public class Shape : MonoBehaviour, IPointerClickHandler,IPointerUpHandler,IBegi
     {
         
         this.GetComponent<RectTransform>().localScale = shapeSelectedScale;
+        
     }
 
     public void OnDrag(PointerEventData eventData)

@@ -76,6 +76,21 @@ public class BuildingCalculations : MonoBehaviour
     float trainTimer = 0;
    
 
+    public void Start()
+    
+    {
+    PawnCount=PlayerPrefs.GetInt("PawnCount");
+    houseCount=PlayerPrefs.GetInt("HouseCount");
+    castleCount=PlayerPrefs.GetInt("CastleCount");
+    carCount=PlayerPrefs.GetInt("CarCount");
+    shipCount=PlayerPrefs.GetInt("ShipCount");
+    trainCount=PlayerPrefs.GetInt("TrainCount");
+   
+    
+    
+    
+    }
+
     private void FixedUpdate()
     {
        
@@ -85,7 +100,7 @@ public class BuildingCalculations : MonoBehaviour
 
             GridSquare.activeGrid = activeGrid;
         }
-        Debug.Log(trainCount);
+        
 
         currentCoin = GameManager.CoinCount;
         currentGem = GameManager.buildingsGemProgresValue;
@@ -104,32 +119,47 @@ public class BuildingCalculations : MonoBehaviour
         {
             GameManager.BuildingPrice(carCoinReduction, carGemReduction);
             carCount++;
+            PlayerPrefs.SetInt("CarCount",carCount);
+            
         }
         else if (GridSquare.activeGrid - activeGrid == houseSquareCount)
         {
             GameManager.BuildingPrice(houseCoinReduction, houseGemReduction);
             houseCount++;
+            PlayerPrefs.SetInt("HouseCount",houseCount);
            
         }
         else if (GridSquare.activeGrid - activeGrid == pawnSquareCount)
         {
             GameManager.BuildingPrice(pawnCoinReduction, pawnGemReduction);
             PawnCount++;
+            PlayerPrefs.SetInt("PawnCount",PawnCount);
+            
+            
+           
+            
+            
+            
         }
         else if (GridSquare.activeGrid - activeGrid == castleSquareCount)
         {
             GameManager.BuildingPrice(castleCoinReduction, castleGemReduction);
             castleCount++;
+            PlayerPrefs.SetInt("CastleCount",castleCount);
+            
+            
         }
         else if (GridSquare.activeGrid - activeGrid == shipSquareCount)
         {
             GameManager.BuildingPrice(shipCoinReduction, shipGemReduction);
             shipCount++;
+            PlayerPrefs.SetInt("ShipCount",shipCount);
         }
         else if (GridSquare.activeGrid - activeGrid == trainSquareCount)
         {
             GameManager.BuildingPrice(trainCoinReduction, trainGemReduction);
             trainCount++;
+            PlayerPrefs.SetInt("TrainCount",trainCount);
         }
     }
 

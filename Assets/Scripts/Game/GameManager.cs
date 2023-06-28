@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public float GemTimer=0;
     public float CoinTimer=0;
 
+
     public static int CoinCount { get; set; }
     public static int GemCount { get; set; }
 
@@ -42,14 +43,16 @@ public class GameManager : MonoBehaviour
 
         GemTimer+=Time.deltaTime;
         CoinTimer+=Time.deltaTime;
+            
+        
 
-        if(GemTimer>=40 )
+        if(GemTimer>=15 )
         {
             GemCount++;
             GemTimer=0;
         }
 
-        if(CoinTimer>=15)
+        if(CoinTimer>=5)
         {
             CoinCount++;
             CoinTimer=0;
@@ -87,32 +90,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void CheckCoinandGem()
-    {
-        
-        
-            
-            UpdateCoinandGem();
-        
-    }
-    public void UpdateCoinandGem()
-    {
-        CoinCount = PlayerPrefs.GetInt("CoinCount", 10);
-        GemCount = PlayerPrefs.GetInt("GemCount", 2);
-
-        if(CoinText !=null&&GemText!=null)
-        {
-            CoinText.text = $"CoinText: { CoinCount}"; 
-            GemText.text = $"CoinText: { GemCount}"; 
-        }
-
-    }
+    
 
 
 
     public void RestartLevel()
     {
-       SceneManager.LoadScene("SampleScene");
+       
        CoinCount=0;
        GemCount=0;
        BuildingCalculations.PawnCount=0;
@@ -121,6 +105,19 @@ public class GameManager : MonoBehaviour
        BuildingCalculations.castleCount=0;
        BuildingCalculations.shipCount=0;
        BuildingCalculations.trainCount=0;
-
+        SceneManager.LoadScene("Restart");
+    }
+    public void RestartLevel2()
+    {
+       
+       CoinCount=0;
+       GemCount=0;
+       BuildingCalculations.PawnCount=0;
+       BuildingCalculations.carCount=0;
+       BuildingCalculations.houseCount=0;
+       BuildingCalculations.castleCount=0;
+       BuildingCalculations.shipCount=0;
+       BuildingCalculations.trainCount=0;
+        SceneManager.LoadScene("SampleScene");
     }
 }

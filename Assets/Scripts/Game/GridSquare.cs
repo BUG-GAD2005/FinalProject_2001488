@@ -12,6 +12,8 @@ public class GridSquare : MonoBehaviour
     public Image normalImage;
     public List<Sprite> normalImages;
     public static int activeGrid;
+   
+    
     
     
     
@@ -22,8 +24,17 @@ public class GridSquare : MonoBehaviour
     
     void Start()
     {
+   
         Selected = false;
         SquareOccupied = false;
+    
+        
+       
+    
+    }
+    void Update()
+    {
+
     }
 
     public bool CanBePlaced()
@@ -45,6 +56,8 @@ public class GridSquare : MonoBehaviour
         activeGrid++;
         Selected = true;
         SquareOccupied = true;
+       
+        
         
         
         

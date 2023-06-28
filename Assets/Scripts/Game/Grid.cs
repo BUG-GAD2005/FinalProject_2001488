@@ -108,7 +108,7 @@ public class Grid : MonoBehaviour
         }
 
     }
-
+    
 
     private void CheckIfShapeCanBePlaced()
     {
